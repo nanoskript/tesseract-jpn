@@ -23,9 +23,10 @@ async def route_tesseract_jpn(image: bytes = File()):
     )
 
 
+# Vertical mode tends to insert extra spaces, so we remove them.
 @app.post("/tesseract-jpn-vertical", summary="Run vertical OCR on an image.")
 async def route_tesseract_jpn_vertical(image: bytes = File()):
     return pytesseract.image_to_string(
         image=Image.open(io.BytesIO(image)),
         lang="jpn_vert",
-    )
+    ).replace(" ", "")
